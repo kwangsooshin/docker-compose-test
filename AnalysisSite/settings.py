@@ -85,16 +85,29 @@ WSGI_APPLICATION = 'AnalysisSite.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'site_db',
-        'USER': 'site_admin',
-        'PASSWORD': 'site_admin',
-        'HOST': 'localhost',
-        'PORT': '',
+if os.environ['DB_SERVICE']:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ['POSTGRES_DB'],
+            'USER': os.environ['POSTGRES_USER'],
+            'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+            'HOST': os.environ['DB_SERVICE'],
+            'PORT': os.environ['DB_PORT'],
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'site_db',
+            'USER': 'site_admin',
+            'PASSWORD': 'site_admin',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
 
 
 # Password validation
