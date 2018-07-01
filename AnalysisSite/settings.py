@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'AnalysisSite.wsgi.application'
 
 print (os.environ)
 
-if os.environ['DB_SERVICE']:
+if 'DB_SERVICE' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
