@@ -85,6 +85,8 @@ WSGI_APPLICATION = 'AnalysisSite.wsgi.application'
 #     }
 # }
 
+print (os.environ)
+
 if os.environ['DB_SERVICE']:
     DATABASES = {
         'default': {
