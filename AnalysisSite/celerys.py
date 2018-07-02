@@ -6,9 +6,15 @@ from AnalysisSite import config
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AnalysisSite.settings')
 
 app = Celery('AnalysisSite')
+
+if 'RABBITMQ_DEFAULT_USER' in os.environ:
+    url = 'amqp://{}'.format(os.environ.get('RABBITMQ_PORT_5672_TCP_ADDR', 'rabbitmq'))
+else:
+    url = 'amqp://localhost',
+
 app.conf.update(
-    broker_url='amqp://localhost',
-    result_backend='amqp://localhost',
+    broker_url=url,
+    result_backend=url,
     timezone='UTC',
     enable_utc=True,
     worker_autoscaler='{0},{1}'.format(config.WORKER_MAX_SCALER, config.WORKER_MIN_SCALER),
