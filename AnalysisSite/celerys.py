@@ -15,6 +15,8 @@ if 'RABBITMQ_DEFAULT_USER' in os.environ:
 else:
     url = 'amqp://localhost',
 
+print(url)
+
 app.conf.update(
     broker_url=url,
     result_backend=url,
