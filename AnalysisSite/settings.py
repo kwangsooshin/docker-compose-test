@@ -94,7 +94,7 @@ if 'POSTGRES_DB' in os.environ:
             'NAME': os.environ['POSTGRES_DB'],
             'USER': os.environ['POSTGRES_USER'],
             'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-            'HOST': os.environ.get('POSTGRES_PORT_5432_TCP_ADDR', 'POSTGRES'),
+            'HOST': os.environ.get('POSTGRES_PORT_5432_TCP_ADDR', 'postgres'),
             'PORT': '',
         }
     }
