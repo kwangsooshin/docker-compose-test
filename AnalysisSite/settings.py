@@ -87,15 +87,15 @@ WSGI_APPLICATION = 'AnalysisSite.wsgi.application'
 
 print (os.environ)
 
-if 'DB_SERVICE' in os.environ:
+if 'POSTGRES_DB' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': os.environ['POSTGRES_DB'],
             'USER': os.environ['POSTGRES_USER'],
             'PASSWORD': os.environ['POSTGRES_PASSWORD'],
-            'HOST': os.environ['DB_SERVICE'],
-            'PORT': os.environ['DB_PORT'],
+            'HOST': os.environ.get('POSTGRES_PORT_5432_TCP_ADDR', 'POSTGRES'),
+            'PORT': '',
         }
     }
 
