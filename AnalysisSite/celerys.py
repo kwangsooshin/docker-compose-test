@@ -19,7 +19,7 @@ print(url)
 
 app.conf.update(
     broker_url=url,
-    result_backend=url,
+    result_backend='amqp://localhost',
     timezone='UTC',
     enable_utc=True,
     worker_autoscaler='{0},{1}'.format(config.WORKER_MAX_SCALER, config.WORKER_MIN_SCALER),
