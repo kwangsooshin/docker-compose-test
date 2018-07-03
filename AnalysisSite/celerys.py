@@ -7,18 +7,23 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AnalysisSite.settings')
 
 app = Celery('AnalysisSite')
 
-if 'RABBITMQ_DEFAULT_USER' in os.environ:
-    url = 'amqp://{}:{}@{}'.format(
-                                os.environ['RABBITMQ_DEFAULT_USER'],
-                                os.environ['RABBITMQ_DEFAULT_PASS'],
-                                os.environ.get('RABBITMQ_PORT_5672_TCP_ADDR', 'rabbitmq'))
-else:
-    url = 'amqp://localhost',
 
-print(url)
+if 'RABBITMQ_DEFAULT_USER' in os.environ:
+    app.conf.update(
+        broker_url='amqp://{user}:{password}@{address}'.format(
+                    user=os.environ['RABBITMQ_DEFAULT_USER'],
+                    password=os.environ['RABBITMQ_DEFAULT_PASS'],
+                    address=os.environ.get('RABBITMQ_PORT_5672_TCP_ADDR', 'rabbitmq'))
+    )
+
+else:
+    app.conf.update(
+        broker_url='amqp://localhost',
+    )
+
 
 app.conf.update(
-    broker_url=url,
+    # broker_url='amqp://localhost',
     result_backend='amqp://localhost',
     timezone='UTC',
     enable_utc=True,
