@@ -5,7 +5,8 @@ services:
     build:
       context: docker
       dockerfile: Dockerfile
-    image: analysis/site:latest
+    image: analysis_site:latest
+    container_name: site1
     restart: always
     networks:
       - site
