@@ -1,17 +1,13 @@
-version: '3.3'
+version: '2.3'
 
 services:
   web:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: analysis_site:latest
+    image: "${COMPOSE_PROJECT_NAME}"
     container_name: "${WEB_CONTAINER_NAME}"
-#    runtime: nvidia
     restart: always
-    networks:
-      - site
-      - analysis
     links:
       - postgres
       - rabbitmq
@@ -23,15 +19,13 @@ services:
       - "./env_files/postgres.env"
       - "./env_files/rabbitmq.env"
     ports:
-      - "8000:8000"
+      - "${WEB_PORT}:8000"
     stdin_open: true
     tty: true
 
   postgres:
     image: postgres:latest
     restart: always
-    networks:
-      - site
     env_file:
       - "./env_files/postgres.env"
     expose:
@@ -40,16 +34,8 @@ services:
   rabbitmq:
     image: rabbitmq:latest
     restart: always
-    networks:
-      - site
     env_file:
       - "./env_files/rabbitmq.env"
     expose:
       - "5672"
       - "15672"
-
-networks:
-  site:
-  analysis:
-    external: true
-
