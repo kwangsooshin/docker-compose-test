@@ -1,12 +1,13 @@
 version: '3.3'
 
 services:
-  site:
+  web:
     build:
-      context: docker
+      context: ./
       dockerfile: Dockerfile
     image: analysis_site:latest
-    container_name: site1
+    container_name: "${WEB_CONTAINER_NAME}"
+#    runtime: nvidia
     restart: always
     networks:
       - site
@@ -18,9 +19,9 @@ services:
       - postgres
       - rabbitmq
     env_file:
-      - "./docker/env_files/django.env"
-      - "./docker/env_files/postgres.env"
-      - "./docker/env_files/rabbitmq.env"
+      - "./env_files/django.env"
+      - "./env_files/postgres.env"
+      - "./env_files/rabbitmq.env"
     ports:
       - "8000:8000"
     stdin_open: true
@@ -32,7 +33,7 @@ services:
     networks:
       - site
     env_file:
-      - "./docker/env_files/postgres.env"
+      - "./env_files/postgres.env"
     expose:
       - "5432"
 
@@ -42,7 +43,7 @@ services:
     networks:
       - site
     env_file:
-      - "./docker/env_files/rabbitmq.env"
+      - "./env_files/rabbitmq.env"
     expose:
       - "5672"
       - "15672"

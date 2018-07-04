@@ -10,9 +10,12 @@ django.setup()
 from django.contrib.auth.management.commands.createsuperuser import get_user_model
 if not get_user_model().objects.filter(username='$DJANGO_SUPERUSER_USERNAME'): 
     get_user_model()._default_manager.db_manager().create_superuser(username='$DJANGO_SUPERUSER_USERNAME', email='$DJANGO_SUPERUSER_EMAIL', password='$DJANGO_SUPERUSER_PASSWORD')"
-sh start_server.sh
+sh server_start.sh
 
-trap 'sh shutdown_server.sh' SIGTERM
+tail -f celery.log
+tial -f django.log
+
+trap 'sh server_shutdown.sh' SIGTERM
 while true; do :; done
 
 exec "$@"
